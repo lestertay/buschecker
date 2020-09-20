@@ -17,8 +17,8 @@ export const TripSchema = new mongoose.Schema({
 	busPlate: { type: String, required: true },
 	startTime: { type: String, required: true },
 	startLoc: { type: String, required: true },
-	stopTime: { type: String, required: true },
-	stopLoc: { type: String, required: true }
+	stopTime: { type: String, required: false},
+	stopLoc: { type: String, required: false }
 })
 
 const Trip = mongoose.model('Trip', TripSchema);

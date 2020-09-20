@@ -3,24 +3,24 @@ import Trip from './../database/Trip';
 
 // - GET - /alltrip # returns all trips
 export let allTrip = (req: Request, res: Response) => {
-	let trip = Trip.find((err: any, commuters: any) => {
+	let trips = Trip.find((err: any, trips: any) => {
 		if (err) {
 			res.send(err);
 		}
 		else {
-			res.send(trip);
+			res.send(trips);
 		}
 	})
 }
 
 // - GET - /trip/{1} returns a trip with id of 1
 export let getTrip = (req: Request, res: Response) => {
-	Trip.findById(req.params.id, (err: any, book: any) => {
+	Trip.findById(req.params.id, (err: any, trip: any) => {
 		if (err) {
 			res.send(err);
 		}
 		else {
-			res.send(Trip);
+			res.send(trip);
 		}
 	})
 }
@@ -53,7 +53,7 @@ export let deleteTrip = (req: Request, res: Response) => {
 
 // - POST - /trip/{1} # updates a trip with id of 1
 export let updateTrip = (req: Request, res: Response) => {
-	Trip.findByIdAndUpdate(req.params.id, req.body, (err: any, commuter: any) => {
+	Trip.findByIdAndUpdate(req.params.id, req.body, (err: any, trip: any) => {
 		if (err) {
 			res.send(err);
 		}

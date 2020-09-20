@@ -3,7 +3,7 @@ import Bus from './../database/Bus';
 
 // - GET - /allbus # returns all buses
 export let allBus = (req: Request, res: Response) => {
-	let bus = Bus.find((err: any, commuters: any) => {
+	let bus = Bus.find((err: any, bus: any) => {
 		if (err) {
 			res.send(err);
 		}
@@ -15,12 +15,12 @@ export let allBus = (req: Request, res: Response) => {
 
 // - GET - /bus/{1} returns a bus with id of 1
 export let getBus = (req: Request, res: Response) => {
-	Bus.findById(req.params.id, (err: any, book: any) => {
+	Bus.findById(req.params.id, (err: any, bus: any) => {
 		if (err) {
 			res.send(err);
 		}
 		else {
-			res.send(Bus);
+			res.send(bus);
 		}
 	})
 }
@@ -53,7 +53,7 @@ export let deleteBus = (req: Request, res: Response) => {
 
 // - POST - /bus/{1} # updates a bus with id of 1
 export let updateBus = (req: Request, res: Response) => {
-	Bus.findByIdAndUpdate(req.params.id, req.body, (err: any, commuter: any) => {
+	Bus.findByIdAndUpdate(req.params.id, req.body, (err: any, bus: any) => {
 		if (err) {
 			res.send(err);
 		}

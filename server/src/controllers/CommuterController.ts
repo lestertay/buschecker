@@ -15,12 +15,12 @@ export let allCommuters = (req: Request, res: Response) => {
 
 // - GET - /commuter/{1} returns a commuter with id of 1
 export let getCommuter = (req: Request, res: Response) => {
-	Commuter.findById(req.params.id, (err: any, book: any) => {
+	Commuter.findById(req.params.id, (err: any, commuter: any) => {
 		if (err) {
 			res.send(err);
 		}
 		else {
-			res.send(Commuter);
+			res.send(commuter);
 		}
 	})
 }

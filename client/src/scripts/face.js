@@ -4,9 +4,9 @@ import * as faceapi from "face-api.js";
 export async function loadModels() {
   const MODEL_URL = process.env.PUBLIC_URL + "/models";
 
-  await faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-  await faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-  await faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
+  await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+  await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+  await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
   await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
   await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
   await faceapi.loadFaceRecognitionModel(MODEL_URL);
@@ -34,10 +34,25 @@ export async function getFullFaceDescription(blob, inputSize = 512) {
 }
 
 const maxDescriptorDistance = 0.5;
-export async function createMatcher() {
+export async function createMatcher() 
+{
+  const labeledDescriptors = await loadLabeledImages();
+  return new faceapi.FaceMatcher(labeledDescriptors, maxDescriptorDistance);
 
-const labels = ['Darren Tan', 'Lee Won Jenn', 'Lester Tay', 'Looi Han Liong', 'Tan Yi Heng', 'Garyl Ng Xuan', 'Wee Ren'] // for WebCam
-  return Promise.all(
+}
+
+//   // Create face matcher (maximum descriptor distance is 0.5)
+//   return new faceapi.FaceMatcher(
+//     labeledDescriptors,
+//     maxDescriptorDistance
+//   );
+// }
+
+
+function loadLabeledImages()
+{
+  const labels = ['Darren Tan', 'Lee Won Jenn', 'Lester Tay', 'Looi Han Liong', 'Tan Yi Heng', 'Garyl Ng Xuan', 'Wee Ren'] // for WebCam
+  Promise.all(
       labels.map(async (label)=>{
           const descriptions = []
           for(let i=1; i<=4; i++) {
@@ -46,14 +61,7 @@ const labels = ['Darren Tan', 'Lee Won Jenn', 'Lester Tay', 'Looi Han Liong', 'T
               console.log(label + i + JSON.stringify(detections))
               descriptions.push(detections.descriptor)
           }
-          let labeledDescriptors = faceapi.LabeledFaceDescriptors(label, descriptions)
+          return new faceapi.LabeledFaceDescriptors(label, descriptions)
       })
   )
-
-  // Create face matcher (maximum descriptor distance is 0.5)
-  let faceMatcher = new faceapi.FaceMatcher(
-    labeledDescriptors,
-    maxDescriptorDistance
-  );
-  return faceMatcher;
 }

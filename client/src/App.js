@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import Webcam from "react-webcam";
-import { loadModels, getFullFaceDescription, createMatcher } from "../api/face";
+import { loadModels, getFullFaceDescription, createMatcher } from "./scripts/face";
 
 // Import face profile
 // This might not be necessary so I think can just take away
@@ -180,4 +179,4 @@ class VideoInput extends Component {
   }
 }
 
-export default withRouter(VideoInput);
+export default VideoInput;

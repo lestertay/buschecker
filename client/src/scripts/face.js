@@ -37,31 +37,23 @@ const maxDescriptorDistance = 0.5;
 export async function createMatcher() 
 {
   const labeledDescriptors = await loadLabeledImages();
+  console.log('after load img', labeledDescriptors);
   return new faceapi.FaceMatcher(labeledDescriptors, maxDescriptorDistance);
 
 }
 
-//   // Create face matcher (maximum descriptor distance is 0.5)
-//   return new faceapi.FaceMatcher(
-//     labeledDescriptors,
-//     maxDescriptorDistance
-//   );
-// }
-
-
 function loadLabeledImages()
 {
-  const labels = ['Darren Tan', 'Lee Won Jenn', 'Lester Tay', 'Looi Han Liong', 'Tan Yi Heng', 'Garyl Ng Xuan', 'Wee Ren'] // for WebCam
+  const labels = ['Darren_Tan', 'Lee_Won_Jenn', 'Looi_Han_Liong', 'Tan_Yi_Heng', 'Garyl_Ng_Xuan', 'Wee_Ren'] // for WebCam
   Promise.all(
       labels.map(async (label)=>{
           const descriptions = []
           for(let i=1; i<=4; i++) {
-              const img = await faceapi.fetchImage(`../labeled_images/${label}/${i}.jpeg`)
+              const img = await faceapi.fetchImage(`http://localhost:3000/labeled_images/${label}/${i}.jpeg`)
               const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-              console.log(label + i + JSON.stringify(detections))
               descriptions.push(detections.descriptor)
           }
-          return new faceapi.LabeledFaceDescriptors(label, descriptions)
+          return new faceapi.LabeledFaceDescriptors(label, descriptions.map(d => new Float32Array(d)))
       })
   )
 }

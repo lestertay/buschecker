@@ -80,7 +80,7 @@ class WebCam extends React.Component {
   onMatchFace(match) {
     if (match.length > 0) {
       for (let m of match) {
-        if (m._label != "unknown") {
+        if (m._label !== "unknown") {
           // send to backend
           this.props.onMatchFace(m._label);
         }
@@ -180,12 +180,12 @@ class WebCam extends React.Component {
             <div
               style={{
                 position: "absolute",
-                top: 10,
+                top: 20,
                 left: "50%",
                 transform: "translateX(-50%)",
               }}
             >
-              <Title level={2}>Bus Count: {this.props.count}</Title>
+              <Title level={1}>Capacity: {this.props.count}/30</Title>
             </div>
           </>
         ) : (

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/Server.ts",
     "start": "node ./build/Server.js",
+    "postinstall": "tsc",
     "build": "tsc"
   },
   "keywords": [],
@@ -24,6 +25,6 @@
     "typescript": "^4.0.2"
   },
   "engines": {
-    "node": "13.8.0"
+    "node": "12.19.0"
   }
 }

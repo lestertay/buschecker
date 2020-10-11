@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 const app = express();
-let PORT = process.env.port || 8000;
+let PORT = process.env.PORT || 8000;
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {

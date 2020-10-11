@@ -14,6 +14,20 @@ import {
 const HEIGHT = 720;
 const inputSize = 160;
 
+const Loading = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: HEIGHT,
+      }}
+    >
+      <h2>Loading...</h2>
+    </div>
+  );
+};
 class WebCam extends React.Component {
   constructor(props) {
     super();
@@ -161,7 +175,9 @@ class WebCam extends React.Component {
               videoConstraints={videoConstraints}
             />
           </div>
-        ) : null}
+        ) : (
+          <Loading />
+        )}
         {!!drawBox ? drawBox : null}
       </div>
     );

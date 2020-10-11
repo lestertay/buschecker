@@ -22,6 +22,9 @@ const Camera = () => {
       }}
     >
       <p>Welcome On Board</p>
+      <div>
+        <h3></h3>
+      </div>
       <div
         style={{
           width: "80%",

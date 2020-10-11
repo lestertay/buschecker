@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/Server.ts",
-    "start": "tsc && node ./build/Server.js",
+    "start": "node ./build/Server.js",
+    "postinstall": "tsc",
     "build": "tsc"
   },
   "keywords": [],

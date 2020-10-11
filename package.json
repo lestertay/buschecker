@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "buschecker",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start",
+    "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\""
+  },
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

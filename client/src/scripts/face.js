@@ -40,32 +40,19 @@ export async function createMatcher() {
   return new faceapi.FaceMatcher(labeledDescriptors, maxDescriptorDistance);
 }
 
-function loadLabeledImages() {
-  const labels = [
-    "Darren_Tan",
-    "Lee_Won_Jenn",
-    "Looi_Han_Liong",
-    "Tan_Yi_Heng",
-    "Garyl_Ng_Xuan",
-    "Wee_Ren",
-  ]; // for WebCam
+async function loadLabeledImages()
+{
+  const labels = ['Darren_Tan', 'Lee_Wonn_Jen', 'Looi_Han_Liong', 'Tan_Yi_Heng', 'Garyl_Ng_Xuan', 'Wee_Ren', 'Lester_Tay'] // for WebCam
   return Promise.all(
-    labels.map(async (label) => {
-      const descriptions = [];
-      for (let i = 1; i <= 4; i++) {
-        const img = await faceapi.fetchImage(
-          `http://localhost:3000/labeled_images/${label}/${i}.jpeg`
-        );
-        const detections = await faceapi
-          .detectSingleFace(img)
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-        descriptions.push(detections.descriptor);
-      }
-      return new faceapi.LabeledFaceDescriptors(
-        label,
-        descriptions.map((d) => new Float32Array(d))
-      );
-    })
-  );
+      labels.map(async (label)=>{
+          const descriptions = []
+          for(let i=1; i<=4; i++) {
+              const img = await faceapi.fetchImage(`http://localhost:3000/labeled_images/${label}/${i}.jpeg`)
+              const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+              descriptions.push(detections.descriptor)
+          }
+          
+          return new faceapi.LabeledFaceDescriptors(label, descriptions.map(d => new Float32Array(d)))
+      })
+  )
 }

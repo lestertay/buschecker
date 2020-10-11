@@ -1,6 +1,16 @@
 {
+  "private": true,
+  "name": "buschecker",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start",
+    "start": "yarn server"
+  },
   "dependencies": {
-    "@types/mongoose": "^5.7.36",
-    "mongoose": "^5.10.6"
+    "concurrently": "^5.3.0"
   }
 }

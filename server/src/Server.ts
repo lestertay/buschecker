@@ -7,6 +7,9 @@ import * as CommuterController from './controllers/CommuterController';
 import * as TripController from './controllers/TripController';
 
 const app = express();
+let PORT = process.env.PORT || 8000;
+app.use(cors());
+app.use(bodyParser.json());
 
 //Endpoints for Admin
 app.get('/alladmin', AdminController.allAdmin);
@@ -36,13 +39,10 @@ app.put('/trip/:id', TripController.updateTrip);
 app.delete('/trip/:id', TripController.deleteTrip);
 app.post('/trip', TripController.addTrip);
 
-app.use(cors());
-app.use(bodyParser.json());
-
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Hello World12345!");
 });
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("Server Started at Port, 8000");
 });

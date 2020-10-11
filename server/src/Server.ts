@@ -11,30 +11,30 @@ const app = express();
 //Endpoints for Admin
 app.get('/alladmin', AdminController.allAdmin);
 app.get('/admin/:id', AdminController.getAdmin);
-app.put('/admin', AdminController.addAdmin);
+app.put('/admin/:id', AdminController.updateAdmin);
 app.delete('/admin/:id', AdminController.deleteAdmin);
-app.post('/admin/:id', AdminController.updateAdmin);
+app.post('/admin', AdminController.addAdmin);
 
 //Endpoints for Bus
 app.get('/allbus', BusController.allBus);
 app.get('/bus/:id', BusController.getBus);
-app.put('/bus', BusController.addBus);
+app.put('/bus/:id', BusController.updateBus);
 app.delete('/bus/:id', BusController.deleteBus);
-app.post('/bus/:id', BusController.updateBus);
+app.post('/bus', BusController.addBus);
 
 //Endpoints for Commuter
 app.get('/allcommuter', CommuterController.allCommuters);
 app.get('/commuter/:id', CommuterController.getCommuter);
-app.put('/commuter', CommuterController.addCommuter);
+app.put('/commuter/:id', CommuterController.updateCommuter);
 app.delete('/commuter/:id', CommuterController.deleteCommuter);
-app.post('/commuter/:id', CommuterController.updateCommuter);
+app.post('/commuter', CommuterController.addCommuter);
 
 //Endpoints for Trip
 app.get('/alltrip', TripController.allTrip);
 app.get('/trip/:id', TripController.getTrip);
-app.put('/trip', TripController.addTrip);
+app.put('/trip/:id', TripController.updateTrip);
 app.delete('/trip/:id', TripController.deleteTrip);
-app.post('/trip/:id', TripController.updateTrip);
+app.post('/trip', TripController.addTrip);
 
 app.use(cors());
 app.use(bodyParser.json());

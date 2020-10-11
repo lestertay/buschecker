@@ -12,7 +12,7 @@ mongoose.connect(uri, (err: any) => {
 })
 
 export const TripSchema = new mongoose.Schema({
-	commuterMatric: { type: String, required: true },
+	commuterName: { type: String, required: true},
 	busDriver: { type: String, required: true },
 	busPlate: { type: String, required: true },
 	startTime: { type: String, required: true },

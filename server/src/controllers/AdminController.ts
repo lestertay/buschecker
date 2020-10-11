@@ -25,7 +25,7 @@ export let getAdmin = (req: Request, res: Response) => {
 	})
 }
 
-// - PUT - /admin # inserts a new admin into the table
+// - POST - /admin # inserts a new admin into the table
 export let addAdmin = (req: Request, res: Response) => {
 	let admin = new Admin(req.body);
 
@@ -51,7 +51,7 @@ export let deleteAdmin = (req: Request, res: Response) => {
 	})
 }
 
-// - POST - /admin/{1} # updates a admin with id of 1
+// - PUT - /admin/{1} # updates a admin with id of 1
 export let updateAdmin = (req: Request, res: Response) => {
 	Admin.findByIdAndUpdate(req.params.id, req.body, (err: any, admim: any) => {
 		if (err) {

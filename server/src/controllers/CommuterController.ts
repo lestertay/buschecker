@@ -25,7 +25,7 @@ export let getCommuter = (req: Request, res: Response) => {
 	})
 }
 
-// - PUT - /commuter # inserts a new commuter into the table
+// - POST - /commuter # inserts a new commuter into the table
 export let addCommuter = (req: Request, res: Response) => {
 	let commuter = new Commuter(req.body);
 
@@ -51,7 +51,7 @@ export let deleteCommuter = (req: Request, res: Response) => {
 	})
 }
 
-// - POST - /Commuter/{1} # updates a commuter with id of 1
+// - PUT - /Commuter/{1} # updates a commuter with id of 1
 export let updateCommuter = ( req: Request, res: Response) => {
 	Commuter.findByIdAndUpdate( req.params.id, req.body, (err: any, commuter: any) => {
 		if (err) {

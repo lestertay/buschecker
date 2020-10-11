@@ -25,7 +25,7 @@ export let getBus = (req: Request, res: Response) => {
 	})
 }
 
-// - PUT - /bus # inserts a new bus into the table
+// - POST - /bus # inserts a new bus into the table
 export let addBus = (req: Request, res: Response) => {
 	let bus = new Bus(req.body);
 
@@ -51,7 +51,7 @@ export let deleteBus = (req: Request, res: Response) => {
 	})
 }
 
-// - POST - /bus/{1} # updates a bus with id of 1
+// - PUT - /bus/{1} # updates a bus with id of 1
 export let updateBus = (req: Request, res: Response) => {
 	Bus.findByIdAndUpdate(req.params.id, req.body, (err: any, bus: any) => {
 		if (err) {

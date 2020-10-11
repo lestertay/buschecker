@@ -1,11 +1,10 @@
-var express = require("express");
-var cors = require("cors");
-var PORT = process.env.port || 8000;
+import express, { Request, Response } from "express";
+import cors from "cors";
 const app = express();
-
+let PORT = process.env.port || 8000;
 app.use(cors());
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Hello World12345!");
 });
 

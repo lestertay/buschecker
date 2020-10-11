@@ -1,5 +1,6 @@
 import React from "react";
 import Webcam from "react-webcam";
+import { Typography } from "antd";
 import {
   loadModels,
   getFullFaceDescription,
@@ -13,7 +14,7 @@ import {
 
 const HEIGHT = 720;
 const inputSize = 160;
-
+const { Title } = Typography;
 const Loading = () => {
   return (
     <div
@@ -165,16 +166,28 @@ class WebCam extends React.Component {
     return (
       <div style={{ position: "relative", width: "100%" }}>
         {!!videoConstraints ? (
-          <div style={{ position: "absolute" }}>
-            <Webcam
-              audio={false}
-              width={"100%"}
-              height={HEIGHT}
-              ref={this.webcam}
-              screenshotFormat="image/jpeg"
-              videoConstraints={videoConstraints}
-            />
-          </div>
+          <>
+            <div style={{ position: "absolute" }}>
+              <Webcam
+                audio={false}
+                width={"100%"}
+                height={HEIGHT}
+                ref={this.webcam}
+                screenshotFormat="image/jpeg"
+                videoConstraints={videoConstraints}
+              />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                top: 10,
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <Title level={2}>Bus Count: {this.props.count}</Title>
+            </div>
+          </>
         ) : (
           <Loading />
         )}

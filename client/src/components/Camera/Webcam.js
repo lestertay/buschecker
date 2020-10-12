@@ -1,6 +1,7 @@
 import React from "react";
 import Webcam from "react-webcam";
 import { Typography } from "antd";
+import Loader from 'react-loader-spinner'
 import {
   loadModels,
   getFullFaceDescription,
@@ -17,16 +18,13 @@ const inputSize = 160;
 const { Title } = Typography;
 const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: HEIGHT,
-      }}
-    >
-      <h2>Loading...</h2>
-    </div>
+      <Loader 
+        type="ThreeDots"
+        color="#36413E"
+        height={50}
+        width={50}
+      />
+    
   );
 };
 class WebCam extends React.Component {
@@ -40,7 +38,7 @@ class WebCam extends React.Component {
       faceMatcher: null,
       match: null,
       facingMode: null,
-      mode: props.mode,
+      position: props.position,
     };
   }
 
@@ -114,6 +112,7 @@ class WebCam extends React.Component {
 
   render() {
     const { detections, match, facingMode } = this.state;
+    const {count, capacity} = this.props;
     let videoConstraints = null;
     if (!!facingMode) {
       videoConstraints = {
@@ -185,11 +184,14 @@ class WebCam extends React.Component {
                 transform: "translateX(-50%)",
               }}
             >
-              <Title level={1}>Capacity: {this.props.count}/30</Title>
+              <Title level={1}>Capacity: {count}/ {capacity} </Title>
             </div>
           </>
         ) : (
-          <Loading />
+          <div style={{height: HEIGHT, display: 'flex', alignItems:'center', justifyContent:'center'}}>
+            <Loading />
+          </div>
+          
         )}
         {!!drawBox ? drawBox : null}
       </div>

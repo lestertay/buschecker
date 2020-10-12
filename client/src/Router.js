@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
-import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Camera from "./components/Camera";
+import Dashboard from "./components/Dashboard"
 
 function Router(props) {
   return (
@@ -12,7 +13,7 @@ function Router(props) {
           render={(props) => (
             <Fragment>
               {/* can have some login for auth checking here */}
-              <Redirect to="/camera" {...props} />
+              <Dashboard/>
             </Fragment>
           )}
         />

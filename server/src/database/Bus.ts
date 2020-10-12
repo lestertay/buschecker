@@ -1,6 +1,6 @@
-import * as mongoose from 'mongoose';
+import mongoose = require("mongoose");
 
-const uri: string = 'mongodb://127/0/0/01:27017/local';
+const uri: string = 'mongodb://localhost/buschecker';
 
 mongoose.connect(uri, (err: any) => {
 	if (err) {

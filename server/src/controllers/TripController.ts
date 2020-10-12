@@ -61,7 +61,7 @@ export let deleteTrip = (req: Request, res: Response) => {
 	})
 }
 
-// - PUT - /trip/{1} # updates a trip with id of 1
+// - PUT - /trip # updates a trip
 export let updateTrip = (req: Request, res: Response) => {
 	let found: boolean = true;
 	const filter = {
@@ -69,26 +69,20 @@ export let updateTrip = (req: Request, res: Response) => {
 		busDriver: req.body.busDriver,
 		busPlate: req.body.busPlate
 	};
-	const update = req.body;
-	for (let i = 0; i < commuterNameList.length; i++) {
-		if (commuterNameList[i] == req.body.commuterName) {
-			found = false;
-			break;
-        }
-	}
-	if (found) {
-		var index = commuterNameList.indexOf(req.body.commuterName);
-		commuterNameList.splice(index, 1);
-		Trip.findOneAndUpdate(filter, update, (err: any, trip: any) => {
-			if (err) {
-				res.send(err);
-			}
-			else {
-				res.send("Successfully updated trip");
-			}
-		})
-	}
-	else {
-		res.status(400).string("Commuter not found");
-    }
+	const update = { 
+		stopTime : req.body.stopTime,
+		stopLoc : req.body.stopLoc
+	};
+
+	var index = commuterNameList.indexOf(req.body.commuterName);
+	commuterNameList.splice(index, 1);
+	Trip.findOneAndUpdate(filter, update, (err: any) => {
+		if (err) {
+			res.send("Commuter not found, " + err);
+		}
+		else {
+			res.send("Successfully updated trip");
+		}
+	})
+
 }

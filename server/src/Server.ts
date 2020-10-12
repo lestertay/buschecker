@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
+import express, {Request, Response} from 'express';
+import cors = require('cors');
 import * as bodyParser from 'body-parser';
 import * as AdminController from './controllers/AdminController';
 import * as BusController from './controllers/BusController';
@@ -35,7 +35,7 @@ app.post('/commuter', CommuterController.addCommuter);
 //Endpoints for Trip
 app.get('/alltrip', TripController.allTrip);
 app.get('/trip/:id', TripController.getTrip);
-app.put('/trip/:id', TripController.updateTrip);
+app.put('/trip', TripController.updateTrip);
 app.delete('/trip/:id', TripController.deleteTrip);
 app.post('/trip', TripController.addTrip);
 
@@ -44,5 +44,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Server Started at Port, 8000");
+  console.log("Server Started at Port, " + PORT);
 });

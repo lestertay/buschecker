@@ -7,7 +7,10 @@ import * as BusController from './controllers/BusController';
 import * as CommuterController from './controllers/CommuterController';
 import * as TripController from './controllers/TripController';
 
+
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 let PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,6 +22,13 @@ mongoose.connect(MONGODB_URL,
   }, () => {
   console.log('connected to DB')
 })
+
+io.on('connection', (socket: any) => {
+  console.log('a user connected');
+  socket.on('message', (message: any) => {
+    console.log('received', message)
+  })
+});
 
 //Endpoints for Admin
 app.get('/alladmin', AdminController.allAdmin);

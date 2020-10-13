@@ -67,7 +67,9 @@ export let updateTrip = (req: Request, res: Response) => {
 	const filter = {
 		commuterName: req.body.commuterName,
 		busDriver: req.body.busDriver,
-		busPlate: req.body.busPlate
+		busPlate: req.body.busPlate,
+		startTime: req.body.startTime,
+		startLoc: req.body.startLoc
 	};
 	const update = { 
 		stopTime : req.body.stopTime,

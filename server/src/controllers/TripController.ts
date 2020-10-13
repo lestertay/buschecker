@@ -30,7 +30,7 @@ export let getTrip = (req: Request, res: Response) => {
 // - POST - /Commuter # inserts a new trip into the table
 export let addTrip = (req: Request, res: Response) => {
   console.log(req.body.trip)
-	let trip = new Trip(req.body);
+	let trip = new Trip({...req.body, completed: false});
   console.log('adding new trip', JSON.stringify(trip))
 	commuterNameList.forEach(function (name) {
 		if (name == req.body.commuterName) {
@@ -69,12 +69,12 @@ export let updateTrip = (req: Request, res: Response) => {
 		commuterName: req.body.commuterName,
 		busDriver: req.body.busDriver,
 		busPlate: req.body.busPlate,
-		startTime: req.body.startTime,
-		startLoc: req.body.startLoc
+		completed: false
 	};
 	const update = { 
 		stopTime : req.body.stopTime,
-		stopLoc : req.body.stopLoc
+    stopLoc : req.body.stopLoc,
+    completed: true
 	};
 
 	var index = commuterNameList.indexOf(req.body.commuterName);

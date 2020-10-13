@@ -42,7 +42,7 @@ app.delete('/commuter/:id', CommuterController.deleteCommuter);
 app.post('/commuter', CommuterController.addCommuter);
 
 //Endpoints for Trip
-app.get('/alltrip', TripController.allTrip);
+app.get('/trips', TripController.allTrip);
 app.get('/trip/:id', TripController.getTrip);
 app.put('/trip', TripController.updateTrip);
 app.delete('/trip/:id', TripController.deleteTrip);

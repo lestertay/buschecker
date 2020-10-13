@@ -16,7 +16,8 @@ export const TripSchema = new mongoose.Schema({
 	busDriver: { type: String, required: true },
 	busPlate: { type: String, required: true },
 	startTime: { type: String, required: true },
-	startLoc: { type: String, required: true },
+  startLoc: { type: String, required: true },
+  completed: {type: Boolean, required: true},
 	stopTime: { type: String, required: false},
 	stopLoc: { type: String, required: false }
 })

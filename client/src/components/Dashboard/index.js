@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios'
 import {withRouter} from 'react-router-dom'
 import Table from './Table';
 import { Button, Row, Col, Typography, Form, Input, Modal, InputNumber, Radio } from "antd";
@@ -7,6 +8,15 @@ const { Title } = Typography;
 
 const NewRecordingForm = ({ visible, onRecord, onCancel }) => {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    console.log('hello')
+    axios.get('http://localhost:8000/trips').then(
+      (resp) => {
+        console.log(resp.data)
+      }
+    )
+  },[])
   return (
     <Modal
       visible={visible}

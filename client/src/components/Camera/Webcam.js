@@ -113,6 +113,17 @@ class WebCam extends React.Component {
   render() {
     const { detections, match, facingMode } = this.state;
     const {count, capacity} = this.props;
+    let boxColor;
+
+    if (count/capacity < 0.5){
+      boxColor = "green"
+    }
+    else if (count/capacity <0.9){
+      boxColor = "orange"
+    }
+    else{
+      boxColor = "chucknorris"
+    }
     let videoConstraints = null;
     if (!!facingMode) {
       videoConstraints = {
@@ -135,7 +146,7 @@ class WebCam extends React.Component {
               style={{
                 position: "absolute",
                 border: "solid",
-                borderColor: "blue",
+                borderColor: boxColor,
                 height: _H,
                 width: _W,
                 transform: `translate(${_X}px,${_Y}px)`,
@@ -144,9 +155,9 @@ class WebCam extends React.Component {
               {!!match && !!match[i] ? (
                 <p
                   style={{
-                    backgroundColor: "blue",
+                    backgroundColor: boxColor,
                     border: "solid",
-                    borderColor: "blue",
+                    borderColor: boxColor,
                     width: _W,
                     marginTop: 0,
                     color: "#fff",

@@ -9,11 +9,25 @@ import * as TripController from './controllers/TripController';
 
 
 const app = express();
+app.use(cors({
+  origin: '*',
+  credentials: true }));
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+io.origins((origin: any, callback: any) => {
+  if (origin !== 'http://localhost:3000') {
+      return callback('origin not allowed', false);
+  }
+  callback(null, true);
+});
 let PORT = process.env.PORT || 8000;
-app.use(cors());
-app.use(bodyParser.json());
+
 
 const MONGODB_URL ='mongodb+srv://admin:admin@buschecker.rl9ai.mongodb.net/buschecker?retryWrites=true&w=majority'
 mongoose.connect(MONGODB_URL, 
@@ -62,6 +76,6 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Hello World12345!");
 });
 
-app.listen(PORT, () => {
+io.listen(PORT, () => {
   console.log("Server Started at Port, " + PORT);
 });

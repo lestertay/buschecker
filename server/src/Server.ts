@@ -1,4 +1,5 @@
 import express, {Request, Response} from 'express';
+import mongoose from 'mongoose';
 import cors = require('cors');
 import * as bodyParser from 'body-parser';
 import * as AdminController from './controllers/AdminController';
@@ -10,6 +11,14 @@ const app = express();
 let PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(bodyParser.json());
+
+const MONGODB_URL ='mongodb+srv://admin:admin@buschecker.rl9ai.mongodb.net/buschecker?retryWrites=true&w=majority'
+mongoose.connect(MONGODB_URL, 
+  { useNewUrlParser: true,
+    useUnifiedTopology:true 
+  }, () => {
+  console.log('connected to DB')
+})
 
 //Endpoints for Admin
 app.get('/alladmin', AdminController.allAdmin);

@@ -5,7 +5,7 @@ var commuterNameList: string[] = [];
 
 // - GET - /alltrip # returns all trips
 export let allTrip = (req: Request, res: Response) => {
-	let trips = Trip.find((err: any, trips: any) => {
+	Trip.find((err: any, trips: any) => {
 		if (err) {
 			res.send(err);
 		}
@@ -29,12 +29,13 @@ export let getTrip = (req: Request, res: Response) => {
 
 // - POST - /Commuter # inserts a new trip into the table
 export let addTrip = (req: Request, res: Response) => {
+  console.log(req.body.trip)
 	let trip = new Trip(req.body);
-
+  console.log('adding new trip', JSON.stringify(trip))
 	commuterNameList.forEach(function (name) {
 		if (name == req.body.commuterName) {
 			res.send("Commuter already boarded.");
-			return;
+			return res.send(`people here ${commuterNameList}`);
 		}
 	})
 	commuterNameList.push(req.body.commuterName);

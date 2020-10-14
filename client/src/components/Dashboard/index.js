@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from 'axios'
+import socketIOClient from 'socket.io-client'
 import {withRouter} from 'react-router-dom'
 import Table from './Table';
 import { Button, Row, Col, Typography, Form, Input, Modal, InputNumber, Radio } from "antd";
@@ -9,14 +9,6 @@ const { Title } = Typography;
 const NewRecordingForm = ({ visible, onRecord, onCancel }) => {
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    console.log('hello')
-    axios.get('http://localhost:8000/trips').then(
-      (resp) => {
-        console.log(resp.data)
-      }
-    )
-  },[])
   return (
     <Modal
       visible={visible}
@@ -97,9 +89,16 @@ const NewRecordingForm = ({ visible, onRecord, onCancel }) => {
   );
 };
 
-const Dashboard = ({history}) => {
+const Dashboard = ({history, location}) => {
   const [visible, setVisible] = useState(false);
-
+  useEffect(() => {
+    const socket = socketIOClient('http://192.168.1.5:8000');
+    socket.emit("FETCH_TRIPS");
+    socket.on("RECEIVE_TRIPS", data => {
+      console.log('received', data)
+    })
+    return () => socket.disconnect()
+  },[history, location])
   const onRecord = (data) => {
     if(!data.capacity){
       data.capacity = 30;

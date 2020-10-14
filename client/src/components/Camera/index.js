@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 import {withRouter} from 'react-router-dom'
 import WebCam from "./Webcam";
 import socketIOClient from "socket.io-client";
 import { Button, Typography } from "antd";
 
 const HEIGHT = 720;
-const seedData = ["USER_1", "USER_2", "USER_3"];
 const { Title } = Typography;
 const Camera = ({location, history}) => {
   const [socket, setSocket] = useState(null);
-  const [riders, setRiders] = useState(seedData);
+  const [riders, setRiders] = useState([]);
   const {state} = location;
   const {position, driver, plateNumber} = state;
   useEffect(() => {
-    const socket = socketIOClient('http://localhost:8000');
-    socket.on("message", data => {
-      console.log('received', data)
+    const socket = socketIOClient('http://192.168.1.5:8000');
+    socket.on("COMMUTER_COUNT_UPDATE", (data) => {
+      console.log('number of commuters:', data.data.length)
+      setRiders(data.data)
     })
     setSocket(socket);
     return () => socket.disconnect()
@@ -27,17 +28,33 @@ const Camera = ({location, history}) => {
     if(position === "enter"){
       // send to server to increase count
       if (!riders.includes(name)){
-        setRiders((state) => [...state, name]);
-        if(socket) socket.emit('message', {data: name});
         console.log(`${name} has boarded the bus, ${plateNumber}, driven by ${driver}`);
-      } else if (position === "exit") {
-        // send to server to decrease count
-        if (!riders.includes(name)){
-          setRiders((state) => [...state, name]);
-          console.log(`${name} has exited the bus, ${plateNumber}, driven by ${driver}`);
-        }  
+        const configData = {
+          commuterName: name,
+          busDriver: driver,
+          busPlate: plateNumber,
+          startTime: moment(new Date()).toString(),
+          startLoc: 'Hall 12'
+        }
+        console.log('sending over', configData)
+        if(socket) socket.emit('NEW_COMMUTER', {data: configData});
+        
       }    
-    }
+    } else if (position === "exit") {
+      // send to server to decrease count
+      console.log(`${name} has exited the bus, ${plateNumber}, driven by ${driver}`);
+      if (riders.includes(name)){
+        const configData = {
+          commuterName: name,
+          busDriver: driver,
+          busPlate: plateNumber,
+          stopTime: moment().toString(),
+          stopLoc: 'North Hill'
+        }
+        if(socket) socket.emit('EXIT_COMMUTER', {data: configData});
+        
+      }  
+    } 
   };
   return (
     <div

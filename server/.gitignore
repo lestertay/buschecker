@@ -1,0 +1,7 @@
+# Dependency directories
+*/**/node_modules/
+
+*/**/build/
+
+.DS_Store
+node_modules

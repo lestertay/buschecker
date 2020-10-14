@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import socketIOClient from 'socket.io-client'
+import moment from 'moment'
 import {withRouter} from 'react-router-dom'
 import Table from './Table';
 import { Button, Row, Col, Typography, Form, Input, Modal, InputNumber, Radio } from "antd";
@@ -91,11 +92,19 @@ const NewRecordingForm = ({ visible, onRecord, onCancel }) => {
 
 const Dashboard = ({history, location}) => {
   const [visible, setVisible] = useState(false);
+  const [data, setData] = useState([])
   useEffect(() => {
     const socket = socketIOClient('http://192.168.1.5:8000');
     socket.emit("FETCH_TRIPS");
     socket.on("RECEIVE_TRIPS", data => {
       console.log('received', data)
+      setData(data.filter(d => d.completed).map(d => {
+        d.key = d._id;
+        d.commuterName = d.commuterName.split("_").join(" ")
+        d.startTime = moment(new Date(d.startTime)).format('DD-MMM-YYYY h:mm:ss a')
+        d.stopTime = moment(new Date(d.stopTime)).format('DD-MMM-YYYY h:mm:ss a')
+        return d
+      }))
     })
     return () => socket.disconnect()
   },[history, location])
@@ -135,7 +144,7 @@ const Dashboard = ({history, location}) => {
         </Col>
       </Row>
       <div>
-        <Table/>
+        {data.length > 0 && <Table data={data}/>}
       </div>
       <NewRecordingForm
         visible={visible}

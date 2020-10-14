@@ -1,112 +1,7 @@
 import React from 'react'
-import moment from 'moment'
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-
-const data = [
-  {
-    key: '1',
-    name: 'Looi Han Liong',
-    startLocation: 'North Hill',
-    endLocation:'North Spine',
-    driver: 'Ah Choon',
-    plateNumber: 'SGB1234H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '2',
-    name: 'Lee Wonn Jen',
-    startLocation: 'Canteen 2',
-    endLocation:'North Spine',
-    driver: 'Ah Choon',
-    plateNumber: 'SGB1234H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '3',
-    name: 'Garyl Ng',
-    startLocation: 'Canteen 2',
-    endLocation:'North Spine',
-    driver: 'Ah Choon',
-    plateNumber: 'SGB1234H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '4',
-    name: 'Looi Han Liong',
-    startLocation: 'Hall 4',
-    endLocation:'South Spine',
-    driver: 'Ah Teck',
-    plateNumber: 'SGB1564H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '5',
-    name: 'Samuel Duck',
-    startLocation: 'Hall 49',
-    endLocation:'South Spline',
-    driver: 'Ah Teck',
-    plateNumber: 'SGB1564H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '6',
-    name: 'Looi Han Liong',
-    startLocation: 'North Hill',
-    endLocation:'Canteen 2',
-    driver: 'Ah Choon',
-    plateNumber: 'SGB1234H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '7',
-    name: 'Lee Wonn Jen',
-    startLocation: 'Canteen 2',
-    endLocation:'Pioneer MRT',
-    driver: 'Ah Hu',
-    plateNumber: 'SGB8234H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '8',
-    name: 'Garyl Ng',
-    startLocation: 'Hall 8',
-    endLocation:'Center Spine',
-    driver: 'Ah Choong',
-    plateNumber: 'SGB1094J',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '9',
-    name: 'Looi Han Liong',
-    startLocation: 'Chinese Garden',
-    endLocation:'Hall 14',
-    driver: 'Ah Teck',
-    plateNumber: 'SGB1564H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  {
-    key: '10',
-    name: 'Samuel Duck',
-    startLocation: 'Hall 49',
-    endLocation:'Chicken Farm',
-    driver: 'Ah Teck',
-    plateNumber: 'SGB1564H',
-    endTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a'),
-    startTime: moment(new Date()).format('DD-MMM-YYYY h:mm:ss a')
-  },
-  
-];
 
 export default class SearchableTable extends React.Component {
   state = {
@@ -183,29 +78,29 @@ export default class SearchableTable extends React.Component {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'commuterName',
+        key: 'commuterName',
         width: '20%',
-        ...this.getColumnSearchProps('name'),
+        ...this.getColumnSearchProps('commuterName'),
       },
       {
-        title: 'Driver',
-        dataIndex: 'driver',
-        key: 'driver',
+        title: 'busDriver',
+        dataIndex: 'busDriver',
+        key: 'busDriver',
         width: '10%',
       },
       {
-        title: 'Bus Plate',
-        dataIndex: 'plateNumber',
-        key: 'plateNumber',
+        title: 'Plate Number',
+        dataIndex: 'busPlate',
+        key: 'busPlate',
         width: '10%',
       },
       {
         title: 'Start Location',
-        dataIndex: 'startLocation',
-        key: 'startLocation',
+        dataIndex: 'startLoc',
+        key: 'startLoc',
         width: '10%',
-        ...this.getColumnSearchProps('startLocation'),
+        ...this.getColumnSearchProps('startLoc'),
       },
       {
         title: 'Start Time',
@@ -215,18 +110,18 @@ export default class SearchableTable extends React.Component {
       },
       {
         title: 'End Location',
-        dataIndex: 'endLocation',
-        key: 'endLocation',
+        dataIndex: 'stopLoc',
+        key: 'stopLoc',
         width: '10%',
-        ...this.getColumnSearchProps('endLocation'),
+        ...this.getColumnSearchProps('stopLoc'),
       },
       {
         title: 'End Time',
-        dataIndex: 'endTime',
-        key: 'endTime',
+        dataIndex: 'stopTime',
+        key: 'stopTime',
         width: '20%',
       },
     ];
-    return <Table columns={columns} dataSource={data} />;
+    return <Table columns={columns} dataSource={this.props.data} />;
   }
 }

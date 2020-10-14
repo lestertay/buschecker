@@ -118,11 +118,11 @@ class WebCam extends React.Component {
     if (count/capacity < 0.5){
       boxColor = "green"
     }
-    else if (count/capacity <0.9){
+    else if (count/capacity < 0.9){
       boxColor = "orange"
     }
     else{
-      boxColor = "chucknorris"
+      boxColor = "red"
     }
     let videoConstraints = null;
     if (!!facingMode) {

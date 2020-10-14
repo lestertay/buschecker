@@ -37,9 +37,9 @@ export let addTrip = (socket: any, data: any) => {
   console.log('received', data)
 	let trip = new Trip({...data, completed: false});
   console.log('adding new trip', JSON.stringify(trip))
-  console.log('people in the bus: ', commuterList)
 	if(!commuterList.includes(data.commuterName)){
     commuterList.push(data.commuterName);
+    console.log('people in the bus: ', commuterList)
     socket.emit('COMMUTER_COUNT_UPDATE', {data: commuterList})
     trip.save((err: any) => {if(!err) console.log('saved trip')})
   }

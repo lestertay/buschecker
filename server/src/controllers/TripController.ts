@@ -47,6 +47,8 @@ export let addTrip = (socket: any, data: any) => {
   
 }
 
+
+
 // - DELETE - /trip/{1} # deletes a trip with id of 1
 export let deleteTrip = (req: Request, res: Response) => {
 	Trip.deleteOne({ _id: req.params.id }, (err: any) => {
@@ -81,4 +83,88 @@ export let updateTrip = (socket: any, data: any) => {
 		if (!err) console.log('updated successfully')
 	})
 
+}
+
+export let findRegex = async (req: Request, res: Response) => {
+
+}
+
+// - GET - /findCovid # finds that covid fucker
+
+export let findCovidFucker = async (req: Request, res: Response) => {
+	
+	let startList: Array<string> = req.body.startTime.split(' ');
+	let stopList: Array<string> = req.body.stopTime.split(' ');
+
+	let startTimeList: Array<string> = startList[4].split(':');
+	let stopTimeList: Array<string> = stopList[4].split(':');
+
+	let startTimeNumber: number = parseInt(startTimeList[0]) * 60 * 60 + parseInt(startTimeList[1]) * 60 + parseInt(startTimeList[2]);
+	let stopTimeNumber: number = parseInt(stopTimeList[0]) * 60 * 60 + parseInt(stopTimeList[1]) * 60 + parseInt(stopTimeList[2]);
+
+	if(startList[5].localeCompare('pm') == 0){
+		startTimeNumber += 12 * 60 *60;
+	}
+
+	if(stopList[5].localeCompare('pm') == 0){
+		stopTimeNumber += 12 * 60 * 60;
+	}
+
+	const filter = {
+		busDriver: req.body.busDriver,
+		busPlate: req.body.busPlate,
+		startTime: new RegExp(`${startList[1]} ${startList[2]} ${startList[3]}`)
+		
+	};
+
+	Trip.find(filter, (err: any, passengers: any) => {
+		if (!err){
+			console.log('found,', passengers)
+			for(let i = 0; i < passengers.length; i ++){
+				let pStartList: Array<string> = passengers[i].startTime.split(' ');
+				let pStopList: Array<string> = passengers[i].stopTime.split(' ');
+
+				console.log('pstartlist ', pStartList)
+				console.log('pstoplist', pStopList)
+
+				let pStartTimeList: Array<string> = pStartList[4].split(':');
+				let pStopTimeList: Array<string> = pStopList[4].split(':');
+
+				console.log('pstarttimelist ', pStartTimeList)
+				console.log('pstoptimelist', pStopTimeList)
+
+				let pStartTimeNumber: number = parseInt(pStartTimeList[0]) * 60 * 60 + parseInt(pStartTimeList[1]) * 60 + parseInt(pStartTimeList[2]);
+				let pStopTimeNumber: number = parseInt(pStopTimeList[0]) * 60 * 60 + parseInt(pStopTimeList[1]) * 60 + parseInt(pStopTimeList[2]);
+			
+
+				console.log(pStartList[5].localeCompare('pm'))
+				console.log(pStopList[5].localeCompare('pm'))
+
+				if(pStartList[5].localeCompare('pm') == 0){
+					pStartTimeNumber = pStopTimeNumber + 12 * 60 *60;
+				}
+			
+				if(pStopList[5] == 'pm'){
+					pStopTimeNumber = pStopTimeNumber + 12*60*60;
+				}
+
+				console.log('pstarttimenumber ', pStartTimeNumber)
+				console.log('pstoptimenumber', pStopTimeNumber)
+
+				if(pStartTimeNumber > stopTimeNumber || pStopTimeNumber < startTimeNumber){
+					passengers.remove(passengers[i]);
+					i--;
+				}
+			}
+
+			res.send(passengers);
+		}
+	}).then(data=>data).catch(err=>err);
+	
+	
+
+	// var index = commuterList.indexOf(data.commuterName);
+  	// commuterList.splice(index, 1);
+	// socket.emit('COMMUTER_COUNT_UPDATE', {data: commuterList})
+	  
 }

@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./build/Server.js",
     "dev": "tsc -w & nodemon -q -w build build/Server.js",
-    "postinstall": "tsc",
     "build": "tsc"
   },
   "keywords": [],

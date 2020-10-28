@@ -46,6 +46,10 @@ io.on('connection', (socket: any) => {
     TripController.addTrip(io.sockets, message.data)
     
   })
+  socket.on('CONTACT_TRACE', (message: any) => {
+    TripController.findCovidFucker(io.sockets, message.data)
+    
+  })
 
   socket.on('EXIT_COMMUTER', (message: any) => {
     console.log('received', message.data)
@@ -85,7 +89,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('hello')
 })
 
-app.listen(PORT, () => {
+io.listen(PORT, () => {
   console.log("Server Started at Port, " + PORT);
 });
 // io.listen(PORT, () => {

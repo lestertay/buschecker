@@ -104,8 +104,10 @@ const NewRecordingForm = ({ visible, onRecord, onCancel }) => {
 const Dashboard = ({ history, location }) => {
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState([]);
+  const [socket, setSocket] = useState(null);
   useEffect(() => {
     const socket = socketIOClient("http://192.168.1.5:8000");
+    setSocket(socket);
     socket.emit("FETCH_TRIPS");
     socket.on("RECEIVE_TRIPS", (data) => {
       console.log("received", data);
@@ -164,7 +166,7 @@ const Dashboard = ({ history, location }) => {
           </Button>
         </Col>
       </Row>
-      <div>{data.length > 0 && <Table data={data} />}</div>
+      <div>{data.length > 0 && <Table socket={socket} data={data} />}</div>
       <NewRecordingForm
         visible={visible}
         onRecord={onRecord}

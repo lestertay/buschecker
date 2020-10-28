@@ -354,6 +354,7 @@ export default class SearchableTable extends React.Component {
       <Fragment>
         <Table columns={columns} dataSource={data} />
         <Graph
+          socket={this.props.socket}
           visible={graphVisible}
           selectedId={selectedId}
           onCancel={() => {
@@ -365,11 +366,16 @@ export default class SearchableTable extends React.Component {
   }
 }
 
-const Graph = ({ visible, onCancel, selectedId }) => {
+const Graph = ({ visible, onCancel, selectedId, socket }) => {
   const [elements, setElements] = useState(elementMock);
   useEffect(() => {
-    if (selectedId) console.log("change node");
-  }, [selectedId]);
+    if (selectedId && socket) {
+      socket.emit("CONTACT_TRACE", { data: selectedId });
+      socket.on("CONTACT_TRACE_FOUND", (data) => {
+        console.log("found covid: ", data);
+      });
+    }
+  }, [selectedId, socket]);
   const onClickNode = (event, element) => {
     console.log("clicked", element);
   };

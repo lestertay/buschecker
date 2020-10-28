@@ -62,7 +62,6 @@ export let deleteTrip = (req: Request, res: Response) => {
 
 // - PUT - /trip # updates a trip
 export let updateTrip = (socket: any, data: any) => {
-	let found: boolean = true;
 	const filter = {
 		commuterName: data.commuterName,
 		busDriver: data.busDriver,
@@ -86,11 +85,11 @@ export let updateTrip = (socket: any, data: any) => {
 
 // - GET - /findCovid # finds that covid fucker
 
-export let findCovidFucker = async (req: Request, res: Response) => {
-
-	Trip.findById(req.body._id, (err: any, covidTrip: any) => {
+export let findCovidFucker = (socket: any, data: any) => {
+  console.log('findcovid', data)
+	Trip.findById(data, (err: any, covidTrip: any) => {
 		if(err)
-			res.send(err);
+			console.log(err);
 		else{
 			let startList: Array<string> = covidTrip.startTime.split(' ');
 			let stopList: Array<string> = covidTrip.stopTime.split(' ');
@@ -180,7 +179,7 @@ export let findCovidFucker = async (req: Request, res: Response) => {
 							returnRes[j%9].push(passengers[i].commuterName)
 						}
 					}
-					res.send(returnRes);
+					socket.emit('CONTACT_TRACE_FOUND', returnRes);
 				}
 			}).then(data=>data).catch(err=>err);
 		}

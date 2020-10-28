@@ -75,12 +75,19 @@ app.delete('/commuter/:id', CommuterController.deleteCommuter);
 app.post('/commuter', CommuterController.addCommuter);
 
 //Endpoints for Trip
-// app.get('/trips', TripController.allTrip);
+app.get('/trips', TripController.allTrip);
 app.get('/trip/:id', TripController.getTrip);
 app.put('/trip', TripController.updateTrip);
 app.delete('/trip/:id', TripController.deleteTrip);
 app.post('/trip', TripController.addTrip);
+app.get('/findCovid', TripController.findCovidFucker);
+app.get('/', (req: Request, res: Response) => {
+  res.send('hello')
+})
 
-io.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log("Server Started at Port, " + PORT);
 });
+// io.listen(PORT, () => {
+//   console.log("Server Started at Port, " + PORT);
+// });

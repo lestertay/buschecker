@@ -91,6 +91,29 @@ export let findCovidFucker = (socket: any, data: any) => {
 		if(err)
 			console.log(err);
 		else{
+			var booleanRes: boolean[] = [false, false, false, false, false, false, false, false, false];
+			var covidStartIndex: number = 0;
+			var covidStopIndex: number = 0;
+
+			for(let j = 0; j < busRoute.length; j++){
+				if(busRoute[j] == covidTrip.startLoc){
+					covidStartIndex = j;
+					break;
+				}
+			}
+			for(let j = 0; j < busRoute.length; j++){
+				if(busRoute[j] == covidTrip.stopLoc){
+					covidStopIndex = j;
+					break;
+				}
+			}
+			if(covidStopIndex < covidStartIndex){
+				covidStopIndex += 9;
+			}
+			for(let j = covidStartIndex; j <= covidStopIndex; j++){
+				booleanRes[j%9] = true;
+			}
+
 			let startList: Array<string> = covidTrip.startTime.split(' ');
 			let stopList: Array<string> = covidTrip.stopTime.split(' ');
 
@@ -118,6 +141,7 @@ export let findCovidFucker = (socket: any, data: any) => {
 			Trip.find(filter, (err: any, passengers: any) => {
 				if (!err){
 					console.log('found,', passengers)
+					
 					for(let i = 0; i < passengers.length; i ++){
 						let pStartList: Array<string> = passengers[i].startTime.split(' ');
 						let pStopList: Array<string> = passengers[i].stopTime.split(' ');
@@ -156,6 +180,7 @@ export let findCovidFucker = (socket: any, data: any) => {
 					}
 
 					var returnRes: string[][] = [[], [], [], [], [], [], [], [], []];
+					
 					var startIndex: number = 0;
 					var stopIndex: number = 0;
 
@@ -176,7 +201,9 @@ export let findCovidFucker = (socket: any, data: any) => {
 							stopIndex += 9;
 						}
 						for(let j = startIndex; j <= stopIndex; j++){
-							returnRes[j%9].push(passengers[i].commuterName)
+							if(booleanRes[j%9]){
+								returnRes[j%9].push(passengers[i].commuterName);
+							}
 						}
 					}
 					socket.emit('CONTACT_TRACE_FOUND', returnRes);

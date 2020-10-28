@@ -106,7 +106,7 @@ const Dashboard = ({ history, location }) => {
   const [data, setData] = useState([]);
   const [socket, setSocket] = useState(null);
   useEffect(() => {
-    const socket = socketIOClient("http://192.168.1.5:8000");
+    const socket = socketIOClient("http://172.20.232.82:8000");
     setSocket(socket);
     socket.emit("FETCH_TRIPS");
     socket.on("RECEIVE_TRIPS", (data) => {

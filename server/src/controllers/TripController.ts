@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import {io} from '../Server';
 import Trip from './../database/Trip';
 
-var commuterList: string[] = [];
+var commuterList: string[] = ['1', '2', '3', '4', '5', '6', '7'];
 
 // - GET - /alltrip # returns all trips
 export let allTrip = async (socket: any) => {
@@ -11,7 +10,6 @@ export let allTrip = async (socket: any) => {
 			return
 		}
 		else {
-      console.log('sendingTrips')
       socket.emit('RECEIVE_TRIPS', trips)
 			return
 		}

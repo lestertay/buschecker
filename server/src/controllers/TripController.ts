@@ -143,6 +143,10 @@ export let findCovidFucker = (socket: any, data: any) => {
 					console.log('found,', passengers)
 					
 					for(let i = 0; i < passengers.length; i ++){
+						if(!passengers[i].completed){
+							passengers.splice(i, 1);
+							i--;
+						}
 						let pStartList: Array<string> = passengers[i].startTime.split(' ');
 						let pStopList: Array<string> = passengers[i].stopTime.split(' ');
 
@@ -174,7 +178,7 @@ export let findCovidFucker = (socket: any, data: any) => {
 						console.log('pstoptimenumber', pStopTimeNumber)
 
 						if(pStartTimeNumber > stopTimeNumber || pStopTimeNumber < startTimeNumber){
-							passengers.remove(passengers[i]);
+							passengers.splice(i, 1);
 							i--;
 						}
 					}

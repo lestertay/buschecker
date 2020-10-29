@@ -1,203 +1,55 @@
-import React, { Fragment, useEffect } from "react";
-import { Table, Input, Button, Space, Modal } from "antd";
+import React, { Fragment, useEffect, useState } from "react";
+import { Table, Input, Button, Space, Modal, Typography } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import ReactFlow from "react-flow-renderer";
-import { useState } from "react";
 
-const elementMock = [
-  {
-    id: "1",
-    data: { label: "Hall 10" },
-    sourcePosition: "left",
-    targetPosition: "right",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "#DF2935",
-      backgroundColor: "#DF2935",
-      fontWeight: 700,
-    },
-    position: { x: 450, y: 25 },
-    draggable: false,
-  },
-  // default node
-  {
-    id: "2",
-    // you can also pass a React component as a label
-    data: { label: "North Hill" },
-    targetPosition: "right",
-    sourcePosition: "left",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "#DF2935",
-      backgroundColor: "#DF2935",
-      fontWeight: 700,
-    },
-    position: { x: 350, y: 25 },
-    draggable: false,
-  },
-  {
-    id: "3",
-    data: { label: "Hall 11" },
-    targetPosition: "right",
-    sourcePosition: "left",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "#DF2935",
-      backgroundColor: "#DF2935",
-      fontWeight: 700,
-    },
-    position: { x: 250, y: 25 },
-    draggable: false,
-  },
-  {
-    id: "4",
-    data: { label: "Tamarind" },
-    targetPosition: "right",
-    sourcePosition: "left",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 150, y: 25 },
-    draggable: false,
-  },
-  {
-    id: "5",
-    data: { label: "Hall 13" },
-    targetPosition: "top",
-    sourcePosition: "bottom",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 85, y: 85 },
-    draggable: false,
-  },
-  {
-    id: "6",
-    data: { label: "Hall 14" },
-    targetPosition: "left",
-    sourcePosition: "right",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 180, y: 145 },
-    draggable: false,
-  },
-  {
-    id: "e1-2",
-    source: "1",
-    target: "2",
-    type: "straight",
-  },
-  {
-    id: "e2-3",
-    source: "2",
-    target: "3",
-    type: "straight",
-  },
-  {
-    id: "e3-4",
-    source: "3",
-    target: "4",
-    type: "straight",
-  },
-  {
-    id: "e4-5",
-    source: "4",
-    target: "5",
-    type: "smoothedge",
-  },
-  {
-    id: "7",
-    data: { label: "North Spine" },
-    targetPosition: "left",
-    sourcePosition: "right",
-    style: {
-      cursor: "pointer",
-      width: 100,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 290, y: 145 },
-    draggable: false,
-  },
-  {
-    id: "8",
-    data: { label: "South Spine" },
-    targetPosition: "left",
-    sourcePosition: "right",
-    style: {
-      cursor: "pointer",
-      width: 100,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 420, y: 145 },
-    draggable: false,
-  },
-  {
-    id: "9",
-    data: { label: "Hall 7" },
-    targetPosition: "bottom",
-    sourcePosition: "top",
-    style: {
-      cursor: "pointer",
-      width: 80,
-      borderRadius: 30,
-      borderColor: "black",
-    },
-    position: { x: 515, y: 85 },
-    draggable: false,
-  },
-
-  // animated edge
-
-  {
-    id: "e5-6",
-    source: "5",
-    target: "6",
-    type: "smoothedge",
-  },
-  {
-    id: "e6-7",
-    source: "6",
-    target: "7",
-    type: "smoothedge",
-  },
-  {
-    id: "e8-9",
-    source: "8",
-    target: "9",
-    type: "smoothedge",
-  },
-  {
-    id: "e7-8",
-    source: "7",
-    target: "8",
-    type: "smoothedge",
-  },
-  {
-    id: "e9-1",
-    source: "9",
-    target: "1",
-    type: "smoothedge",
-  },
+const STOP_MAP = [
+  "Hall 10",
+  "North Hill",
+  "Hall 11",
+  "Tamarind",
+  "Hall 13",
+  "Hall 14",
+  "North Spine",
+  "South Spine",
+  "Hall 7",
 ];
+const SOURCE_MAP = [
+  "left",
+  "left",
+  "left",
+  "left",
+  "bottom",
+  "right",
+  "right",
+  "right",
+  "top",
+];
+const TARGET_MAP = [
+  "right",
+  "right",
+  "right",
+  "right",
+  "top",
+  "left",
+  "left",
+  "left",
+  "bottom",
+];
+const WIDTH_MAP = [80, 80, 80, 80, 80, 80, 100, 100, 80];
+const POS_MAP = [
+  { x: 450, y: 25 },
+  { x: 350, y: 25 },
+  { x: 250, y: 25 },
+  { x: 150, y: 25 },
+  { x: 85, y: 85 },
+  { x: 180, y: 145 },
+  { x: 290, y: 145 },
+  { x: 420, y: 145 },
+  { x: 515, y: 85 },
+];
+const { Title } = Typography;
 export default class SearchableTable extends React.Component {
   state = {
     searchText: "",
@@ -286,7 +138,7 @@ export default class SearchableTable extends React.Component {
   };
 
   render() {
-    const { graphVisible, selectedId } = this.state;
+    const { graphVisible, selectedId, selectedUser } = this.state;
     const { data } = this.props;
     const columns = [
       {
@@ -297,7 +149,7 @@ export default class SearchableTable extends React.Component {
         ...this.getColumnSearchProps("commuterName"),
       },
       {
-        title: "busDriver",
+        title: "Driver",
         dataIndex: "busDriver",
         key: "busDriver",
         width: "10%",
@@ -340,8 +192,16 @@ export default class SearchableTable extends React.Component {
         render: (_: any, record: Item) => (
           <Button
             onClick={(e, i) => {
-              this.setState({ graphVisible: true, selectedId: record._id });
-              console.log("click", record._id);
+              this.setState({
+                graphVisible: true,
+                selectedId: record._id,
+                selectedUser: record.commuterName.replace(" ", "_"),
+              });
+              console.log(
+                "click",
+                record._id,
+                record.commuterName.replace(" ", "_")
+              );
             }}
           >
             Contact Trace
@@ -357,6 +217,7 @@ export default class SearchableTable extends React.Component {
           socket={this.props.socket}
           visible={graphVisible}
           selectedId={selectedId}
+          selectedUser={selectedUser}
           onCancel={() => {
             this.setState({ graphVisible: false });
           }}
@@ -366,18 +227,74 @@ export default class SearchableTable extends React.Component {
   }
 }
 
-const Graph = ({ visible, onCancel, selectedId, socket }) => {
-  const [elements, setElements] = useState(elementMock);
+const Graph = ({ visible, onCancel, selectedId, selectedUser, socket }) => {
+  const [elements, setElements] = useState([]);
+  const [names, setNames] = useState([]);
+  const [display, setDisplay] = useState(-1);
   useEffect(() => {
     if (selectedId && socket) {
       socket.emit("CONTACT_TRACE", { data: selectedId });
-      socket.on("CONTACT_TRACE_FOUND", (data) => {
-        console.log("found covid: ", data);
-      });
     }
   }, [selectedId, socket]);
+
+  useEffect(() => {
+    socket.on("CONTACT_TRACE_FOUND", (data) => {
+      console.log("found covid: ", data);
+      setNames(data);
+      let el = [];
+      for (let i = 0; i < data.length; i++) {
+        let d = data[i];
+        let node, edge;
+        if (d.length > 0) {
+          node = {
+            id: `${i + 1}`,
+            data: { label: STOP_MAP[i] },
+            sourcePosition: SOURCE_MAP[i],
+            targetPosition: TARGET_MAP[i],
+            style: {
+              cursor: "pointer",
+              width: WIDTH_MAP[i],
+              borderRadius: 30,
+              borderColor: "#DF2935",
+              backgroundColor: "#DF2935",
+              fontWeight: 700,
+            },
+            position: POS_MAP[i],
+            draggable: false,
+          };
+        } else {
+          node = {
+            id: `${i + 1}`,
+            data: { label: STOP_MAP[i] },
+            sourcePosition: SOURCE_MAP[i],
+            targetPosition: TARGET_MAP[i],
+            style: {
+              cursor: "pointer",
+              width: WIDTH_MAP[i],
+              backgroundColor: "white",
+              borderRadius: 30,
+              borderColor: "black",
+              fontWeight: 400,
+            },
+            position: POS_MAP[i],
+            draggable: false,
+          };
+        }
+        edge = {
+          id: `e${(i % 9) + 1}-${((i + 1) % 9) + 1}`,
+          source: `${(i % 9) + 1}`,
+          target: `${((i + 1) % 9) + 1}`,
+          type: "smoothedge",
+        };
+
+        el.push(node, edge);
+      }
+      setElements(el);
+    });
+  }, [socket]);
   const onClickNode = (event, element) => {
-    console.log("clicked", element);
+    setDisplay(parseInt(element.id) - 1);
+    console.log("clicked", parseInt(element.id) - 1);
   };
   return (
     <Modal
@@ -390,7 +307,20 @@ const Graph = ({ visible, onCancel, selectedId, socket }) => {
       width={700}
     >
       <div style={{ height: 400 }}>
-        <ReactFlow onElementClick={onClickNode} elements={elements} />
+        <div style={{ height: 200 }}>
+          <ReactFlow onElementClick={onClickNode} elements={elements} />
+        </div>
+
+        {display !== -1 && <Title level={3}>Close Contacts: </Title>}
+        {display !== -1 &&
+          names[display].map((n) => {
+            if (n !== selectedUser)
+              return (
+                <Title style={{ marginTop: 0, fontWeight: 400 }} level={5}>
+                  {n.replaceAll("_", " ")}
+                </Title>
+              );
+          })}
       </div>
     </Modal>
   );

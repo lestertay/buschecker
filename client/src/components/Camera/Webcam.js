@@ -1,7 +1,7 @@
 import React from "react";
 import Webcam from "react-webcam";
 import { Typography } from "antd";
-import Loader from 'react-loader-spinner'
+import Loader from "react-loader-spinner";
 import {
   loadModels,
   getFullFaceDescription,
@@ -17,15 +17,7 @@ const HEIGHT = 720;
 const inputSize = 160;
 const { Title } = Typography;
 const Loading = () => {
-  return (
-      <Loader 
-        type="ThreeDots"
-        color="#36413E"
-        height={50}
-        width={50}
-      />
-    
-  );
+  return <Loader type="ThreeDots" color="#36413E" height={50} width={50} />;
 };
 class WebCam extends React.Component {
   constructor(props) {
@@ -112,17 +104,15 @@ class WebCam extends React.Component {
 
   render() {
     const { detections, match, facingMode } = this.state;
-    const {count, capacity} = this.props;
+    const { count, capacity } = this.props;
     let boxColor;
 
-    if (count/capacity < 0.5){
-      boxColor = "green"
-    }
-    else if (count/capacity < 0.9){
-      boxColor = "orange"
-    }
-    else{
-      boxColor = "red"
+    if (count / capacity < 0.6) {
+      boxColor = "green";
+    } else if (count / capacity < 0.8) {
+      boxColor = "orange";
+    } else {
+      boxColor = "red";
     }
     let videoConstraints = null;
     if (!!facingMode) {
@@ -195,14 +185,22 @@ class WebCam extends React.Component {
                 transform: "translateX(-50%)",
               }}
             >
-              <Title level={1}>Capacity: {count}/ {capacity} </Title>
+              <Title level={1}>
+                Capacity: {count}/ {capacity}{" "}
+              </Title>
             </div>
           </>
         ) : (
-          <div style={{height: HEIGHT, display: 'flex', alignItems:'center', justifyContent:'center'}}>
+          <div
+            style={{
+              height: HEIGHT,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Loading />
           </div>
-          
         )}
         {!!drawBox ? drawBox : null}
       </div>

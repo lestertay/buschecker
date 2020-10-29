@@ -28,7 +28,7 @@ const Camera = ({ location, history }) => {
   const { position, driver, plateNumber } = state;
 
   useEffect(() => {
-    const socket = socketIOClient("http://192.168.1.5:8000");
+    const socket = socketIOClient("http://10.27.113.192:8000");
     socket.on("COMMUTER_COUNT_UPDATE", (data) => {
       console.log("number of commuters:", data.data.length);
       setRiders(data.data);
@@ -85,7 +85,7 @@ const Camera = ({ location, history }) => {
     >
       <Title level={3}>
         {position === "enter"
-          ? "Welcome On Board!"
+          ? `Welcome On Board ${plateNumber}!`
           : "Goodbye, have a nice day!"}
       </Title>
 
